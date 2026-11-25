@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Movie Date? 🎬</title>
+<style>
+:root{color-scheme:dark;--bg1:#0b0720;--bg2:#2a0f3d;--card:rgba(255,255,255,.08);--text:#fdf6ff;--muted:#d6c3e6;--pink:#ff5c93;--gold:#ffd166;--green:#6ee7a8;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--text);background:radial-gradient(circle at 20% 10%,var(--bg2),var(--bg1) 70%) fixed;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px;overflow-x:hidden}
+.stars{position:fixed;inset:0;pointer-events:none;background-image:radial-gradient(2px 2px at 20px 30px,#fff,transparent),radial-gradient(1.5px 1.5px at 90px 120px,#ffd166,transparent),radial-gradient(2px 2px at 160px 70px,#fff,transparent),radial-gradient(1px 1px at 230px 160px,#ff9ec0,transparent);background-size:260px 200px;animation:tw 4s ease-in-out infinite alternate;opacity:.6}
+@keyframes tw{from{opacity:.25}to{opacity:.8}}
+.card{position:relative;z-index:2;width:100%;max-width:440px;background:var(--card);border:1px solid rgba(255,255,255,.18);backdrop-filter:blur(12px);border-radius:28px;padding:34px 26px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.45)}
+.emoji{font-size:64px;animation:bob 2.4s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-8px) rotate(-4deg)}}
+h1{font-family:Georgia,serif;font-size:26px;line-height:1.25;margin:12px 0 8px}
+h1 span{color:var(--gold)}
+p{color:var(--muted);margin:6px 0 18px;line-height:1.5}
+.row{display:flex;gap:14px;justify-content:center;align-items:center;flex-wrap:wrap;min-height:90px}
+button{font:inherit;font-weight:700;border:0;border-radius:999px;cursor:pointer;padding:13px 26px;color:#fff;transition:transform .2s,font-size .3s,padding .3s}
+button:hover{transform:scale(1.06)}
+.yes{background:linear-gradient(135deg,var(--pink),#ff8e53);box-shadow:0 8px 24px rgba(255,92,147,.45)}
+.no{background:rgba(255,255,255,.14)}
+.cinema{display:block;width:100%;margin:10px 0;text-align:left;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:18px;padding:14px 18px}
+.cinema small{display:block;font-weight:400;color:var(--muted)}
+.cinema:hover{background:rgba(255,92,147,.25)}
+.hidden{display:none}
+.heart{position:fixed;bottom:-40px;z-index:1;pointer-events:none;animation:up linear forwards}
+@keyframes up{to{transform:translateY(-110vh) rotate(25deg);opacity:0}}
+.ticket{margin:16px 0;padding:16px;border:2px dashed var(--gold);border-radius:16px;color:var(--gold);font-weight:700}
+</style>
+</head>
+<body>
+<div class="stars"></div>
+<main class="card">
+  <section id="ask">
+    <div class="emoji">🦹‍♂️💚</div>
+    <h1>Will you come watch <span>Avengers: Doomsday</span> with me?</h1>
+    <p id="msg">I saved the best seat for you. 💕</p>
+    <div class="row">
+      <button class="yes" id="yes">Yes! 💖</button>
+      <button class="no" id="no">No 🙈</button>
+    </div>
+  </section>
+
+  <section id="pick" class="hidden">
+    <div class="emoji">🍿</div>
+    <h1>Yay!! Now pick our <span>cinema</span></h1>
+    <p>Wherever you choose, I’ll be the happiest one in the room.</p>
+    <button class="cinema" data-c="SM Aura">🎬 SM Aura<small>Taguig · big screens, cozy vibes</small></button>
+    <button class="cinema" data-c="BGC High Street">✨ BGC High Street<small>Open-air stroll before the movie</small></button>
+    <button class="cinema" data-c="Market! Market!">🛍️ Market! Market!<small>Snacks, dessert &amp; more time together</small></button>
+  </section>
+
+  <section id="done" class="hidden">
+    <div class="emoji">🥰</div>
+    <h1>It’s a date!</h1>
+    <div class="ticket">🎟️ Avengers: Doomsday<br>📍 <span id="where"></span><br>👫 You + Me</div>
+    <p>I’ll bring the popcorn, you bring that beautiful smile. I can’t wait to see you. 💗</p>
+  </section>
+</main>
+
+<script>
+var lines=["Are you sure? 🥺","Pretty please? 🥹","I’ll buy the popcorn! 🍿","Extra butter. Extra cheese. Extra everything. 🧈","It’s just me, you, and Doctor Doom 💚","I really want to see it with you 💕","I’m not giving up on you 😌","Okay, last try… say yes? 🌹"];
+var n=0,yes=document.getElementById("yes"),no=document.getElementById("no"),msg=document.getElementById("msg");
+function show(id){["ask","pick","done"].forEach(function(s){document.getElementById(s).classList.add("hidden")});document.getElementById(id).classList.remove("hidden");hearts(18)}
+function hearts(k){for(var i=0;i<k;i++){var h=document.createElement("div");h.className="heart";h.textContent=["💖","💕","💗","✨","🍿"][i%5];h.style.left=Math.random()*100+"vw";h.style.fontSize=(18+Math.random()*22)+"px";h.style.animationDuration=(3+Math.random()*3)+"s";document.body.appendChild(h);setTimeout(function(x){x.remove()}.bind(null,h),6500)}}
+no.onclick=function(){
+  msg.textContent=lines[Math.min(n,lines.length-1)];n++;
+  yes.style.fontSize=(16+n*3)+"px";yes.style.padding=(13+n*3)+"px "+(26+n*5)+"px";
+  no.style.fontSize=Math.max(11,16-n)+"px";
+  if(n>=5){no.style.transform="translate("+(Math.random()*80-40)+"px,"+(Math.random()*40-20)+"px)"}
+  if(n>=lines.length){no.textContent="Fine, yes 😌";no.className="yes";no.onclick=function(){show("pick")}}
+  hearts(4);
+};
+yes.onclick=function(){show("pick")};
+document.querySelectorAll(".cinema").forEach(function(b){b.onclick=function(){document.getElementById("where").textContent=b.dataset.c;show("done");hearts(30)}});
+</script>
+</body>
+</html>
